@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Medical CT Scan Analyzer Design System
+   Clinical healthcare aesthetic with professional medical color palette
+   All colors MUST be HSL
+*/
+
+@layer base {
+  :root {
+    /* Light theme - Clinical white with medical blue accents */
+    --background: 210 20% 98%;
+    --foreground: 215 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+
+    /* Medical Blue Primary */
+    --primary: 210 80% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 25% 93%;
+    --secondary-foreground: 215 25% 20%;
+
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 15% 45%;
+
+    --accent: 175 60% 40%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Alert colors for stroke detection */
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Success/Normal indicators */
+    --success: 145 65% 40%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning indicators */
+    --warning: 35 90% 50%;
+    --warning-foreground: 0 0% 10%;
+
+    /* Info indicators */
+    --info: 200 85% 50%;
+    --info-foreground: 0 0% 100%;
+
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 210 80% 45%;
+
+    --radius: 0.5rem;
+
+    /* Sidebar - Subtle gray-blue */
+    --sidebar-background: 210 25% 97%;
+    --sidebar-foreground: 215 25% 25%;
+    --sidebar-primary: 210 80% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 30% 92%;
+    --sidebar-accent-foreground: 215 25% 20%;
+    --sidebar-border: 210 20% 90%;
+    --sidebar-ring: 210 80% 45%;
+
+    /* Chart colors */
+    --chart-1: 210 80% 45%;
+    --chart-2: 175 60% 40%;
+    --chart-3: 145 65% 40%;
+    --chart-4: 35 90% 50%;
+    --chart-5: 0 75% 55%;
+  }
+
+  .dark {
+    /* Dark theme - Deep slate with medical blue accents */
+    --background: 220 25% 10%;
+    --foreground: 210 20% 95%;
+
+    --card: 220 25% 13%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 220 25% 13%;
+    --popover-foreground: 210 20% 95%;
+
+    /* Medical Blue Primary - slightly brighter for dark mode */
+    --primary: 210 85% 55%;
+    --primary-foreground: 220 25% 8%;
+
+    --secondary: 220 20% 18%;
+    --secondary-foreground: 210 20% 90%;
+
+    --muted: 220 20% 16%;
+    --muted-foreground: 215 15% 60%;
+
+    --accent: 175 65% 45%;
+    --accent-foreground: 220 25% 8%;
+
+    /* Alert colors for stroke detection */
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Success/Normal indicators */
+    --success: 145 60% 45%;
+    --success-foreground: 220 25% 8%;
+
+    /* Warning indicators */
+    --warning: 35 85% 55%;
+    --warning-foreground: 220 25% 8%;
+
+    /* Info indicators */
+    --info: 200 80% 55%;
+    --info-foreground: 220 25% 8%;
+
+    --border: 220 20% 20%;
+    --input: 220 20% 20%;
+    --ring: 210 85% 55%;
+
+    /* Sidebar - Dark slate */
+    --sidebar-background: 220 25% 8%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 210 85% 55%;
+    --sidebar-primary-foreground: 220 25% 8%;
+    --sidebar-accent: 220 20% 15%;
+    --sidebar-accent-foreground: 210 20% 90%;
+    --sidebar-border: 220 20% 18%;
+    --sidebar-ring: 210 85% 55%;
+
+    /* Chart colors */
+    --chart-1: 210 85% 55%;
+    --chart-2: 175 65% 45%;
+    --chart-3: 145 60% 45%;
+    --chart-4: 35 85% 55%;
+    --chart-5: 0 70% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  /* Professional medical typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer utilities {
+  /* Medical status indicators */
+  .status-normal {
+    @apply bg-success/10 text-success border-success/20;
+  }
+
+  .status-stroke {
+    @apply bg-destructive/10 text-destructive border-destructive/20;
+  }
+
+  .status-pending {
+    @apply bg-warning/10 text-warning border-warning/20;
+  }
+
+  .status-analyzing {
+    @apply bg-info/10 text-info border-info/20;
+  }
+
+  /* Gradient overlays for heatmaps */
+  .heatmap-gradient {
+    background: linear-gradient(
+      to right,
+      hsl(210 80% 45% / 0.2),
+      hsl(35 90% 50% / 0.4),
+      hsl(0 75% 55% / 0.6)
+    );
+  }
+
+  /* Pulse animation for alerts */
+  .pulse-alert {
+    animation: pulse-alert 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse-alert {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+}

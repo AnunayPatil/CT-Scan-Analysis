@@ -1,0 +1,51 @@
+
+services:
+  ml_service:
+    build:
+      context: .
+      dockerfile: ml_service/Dockerfile
+    container_name: ctscan_ml_service
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ml_service:/app/ml_service
+    environment:
+      - MODEL_PATH=/app/model.pth
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ctscan_backend
+    ports:
+      - "3001:3001"
+    depends_on:
+      - ml_service
+    env_file:
+      - ./backend/.env
+    environment:
+      - PORT=3001
+      - ML_SERVICE_URL=http://ml_service:8000
+      - FRONTEND_URL=http://localhost:5173
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - ctscan_uploads:/app/uploads
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ctscan_frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=/api/v1
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  ctscan_uploads:
