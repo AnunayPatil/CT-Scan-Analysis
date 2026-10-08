@@ -27,7 +27,7 @@ import {
 } from "./mockData";
 
 // Base API URL - points to backend server
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api/v1";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "https://ct-scan-backend-120t.onrender.com/api/v1";
 const ASSET_BASE_URL = API_BASE_URL.replace(/\/api\/v1$/, "");
 
 export const assetUrl = (url?: string) => {
