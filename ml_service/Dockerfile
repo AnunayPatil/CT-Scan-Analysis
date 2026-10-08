@@ -2,33 +2,30 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install dependencies needed for some Python packages (like opencv, etc. if needed)
+# System libraries for OpenCV
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libgl1 \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements file
-COPY ml_service/requirements.txt .
-
-# Install Python dependencies
+# Base Python build tools
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel
-RUN pip install --no-cache-dir torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
-# Copy the ML service code
-COPY ml_service/ ./ml_service/
 
-# Copy the model file
+# Install PyTorch CPU first
+RUN pip install --no-cache-dir torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
+
+# Copy & install the rest of requirements
+COPY ml_service/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy service code & model weights
+COPY ml_service/ ./ml_service/
 COPY model.pth .
 
-# Set working directory to ml_service so uvicorn can find main.py easily
 WORKDIR /app/ml_service
 
-# Pre-download the CLIP model so it doesn't happen on startup
-
-
-# Expose FastAPI port
 EXPOSE 8000
 
-# Start the FastAPI service
-CMD uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
+# Start via python -m uvicorn binding dynamically to Render's $PORT
+CMD python -m uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}
