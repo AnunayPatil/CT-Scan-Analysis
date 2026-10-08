@@ -13,9 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY ml_service/requirements.txt .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cpu
-RUN pip install --no-cache-dir -r requirements.txt
-
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
 # Copy the ML service code
 COPY ml_service/ ./ml_service/
 
