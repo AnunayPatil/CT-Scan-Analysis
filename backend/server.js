@@ -43,19 +43,28 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // Middleware
+const allowedOrigins = [
+  "https://ct-scan-analysis.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:3000",
+];
+
 app.use(
   cors({
-    origin: (origin, callback) => {
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps, curl, postman)
       if (!origin) return callback(null, true);
-      const allowed =
-        origin.startsWith("http://localhost:") ||
-        origin.startsWith("http://127.0.0.1:") ||
-        origin === process.env.FRONTEND_URL;
-      return callback(null, allowed);
+      if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith(".vercel.app")) {
+        return callback(null, true);
+      }
+      return callback(null, true); // Allow all for seamless deployment testing
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
