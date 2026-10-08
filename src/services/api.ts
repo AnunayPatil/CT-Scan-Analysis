@@ -101,7 +101,7 @@ export const authService = {
     } catch (error) {
       // Re-throw with more context
       if (error instanceof TypeError && error.message.includes("fetch")) {
-        throw new Error("Cannot connect to server. Please make sure the backend is running on http://localhost:3001");
+        throw new Error("Cannot connect to server. Please make sure the backend is running on https://ct-scan-backend-120t.onrender.com/api/v1");
       }
       throw error;
     }
@@ -129,7 +129,7 @@ export const authService = {
     } catch (error) {
       // Re-throw with more context
       if (error instanceof TypeError && error.message.includes("fetch")) {
-        throw new Error("Cannot connect to server. Please make sure the backend is running on http://localhost:3001");
+        throw new Error("Cannot connect to server. Please make sure the backend is running on https://ct-scan-backend-120t.onrender.com/api/v1");
       }
       throw error;
     }
