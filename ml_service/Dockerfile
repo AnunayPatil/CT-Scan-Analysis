@@ -25,7 +25,7 @@ COPY model.pth .
 WORKDIR /app/ml_service
 
 # Pre-download the CLIP model so it doesn't happen on startup
-RUN python -c "import open_clip; open_clip.create_model_and_transforms('ViT-B-32', pretrained='openai')"
+
 
 # Expose FastAPI port
 EXPOSE 8000
