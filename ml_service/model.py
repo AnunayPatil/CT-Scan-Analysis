@@ -1,10 +1,10 @@
 import os
-import urllib.request
 from pathlib import Path
+import gdown
 import torch
 from torch import nn
 from torchvision import models
-import gdown
+
 
 class EfficientNetBiLSTM(nn.Module):
     def __init__(self, num_classes: int = 3):
