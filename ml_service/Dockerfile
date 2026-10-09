@@ -16,12 +16,10 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 COPY ml_service/requirements.txt .
 RUN pip install --no-cache-dir torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir "uvicorn[standard]"
+RUN pip install --no-cache-dir "uvicorn[standard]" gdown
 
-# Copy all source files
+# Copy source code only (model.pth will be downloaded automatically by model.py)
 COPY ml_service/ ./ml_service/
-COPY model.pth /app/model.pth
-COPY model.pth /app/ml_service/model.pth
 
 WORKDIR /app/ml_service
 
