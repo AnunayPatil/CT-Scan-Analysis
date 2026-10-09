@@ -32,7 +32,7 @@ def load_model(model_path: Path, device: torch.device) -> EfficientNetBiLSTM:
         raise FileNotFoundError(f"Model file not found: {model_path}")
 
     model = EfficientNetBiLSTM(num_classes=3)
-    state_dict = torch.load(model_path, map_location=device)
+    state_dict = torch.load(model_path, map_location=device, weights_only=False)
 
     if isinstance(state_dict, dict) and "state_dict" in state_dict:
         state_dict = state_dict["state_dict"]
