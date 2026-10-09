@@ -29,16 +29,15 @@ class EfficientNetBiLSTM(nn.Module):
 
 
 def load_model(model_path: Path, device: torch.device) -> EfficientNetBiLSTM:
-    # Check if missing or invalid HTML/LFS pointer (< 1 MB)
+    # Check if model.pth is missing or invalid (< 1 MB)
     if not model_path.exists() or model_path.stat().st_size < 1_000_000:
         model_url = os.getenv("MODEL_URL")
         if not model_url:
-            raise RuntimeError("model.pth missing and MODEL_URL not set.")
+            raise RuntimeError("model.pth is missing and MODEL_URL is not set.")
 
         print(f"Downloading binary model from {model_url}...")
         model_path.parent.mkdir(parents=True, exist_ok=True)
-        # gdown automatically handles Google Drive confirmations & redirects
-        gdown.download(model_url, str(model_path), quiet=False, fuzzy=True)
+        gdown.download(model_url, str(model_path), quiet=False)
         print(f"Download complete: {model_path.stat().st_size} bytes.")
 
     model = EfficientNetBiLSTM(num_classes=3)
