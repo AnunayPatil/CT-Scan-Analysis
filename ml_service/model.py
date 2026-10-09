@@ -29,17 +29,17 @@ class EfficientNetBiLSTM(nn.Module):
 
 
 def load_model(model_path: Path, device: torch.device) -> EfficientNetBiLSTM:
-    # Check if the file is missing or is just a Git LFS text pointer (< 1 MB)
+    # Check if missing or invalid HTML/LFS pointer (< 1 MB)
     if not model_path.exists() or model_path.stat().st_size < 1_000_000:
         model_url = os.getenv("MODEL_URL")
         if not model_url:
-            raise RuntimeError(
-                f"Model file at {model_path} is an LFS pointer text file ({model_path.stat().st_size if model_path.exists() else 0} bytes), and MODEL_URL environment variable is not configured."
-            )
-        print(f"Downloading full binary weights from {model_url}...")
+            raise RuntimeError("model.pth missing and MODEL_URL not set.")
+
+        print(f"Downloading binary model from {model_url}...")
         model_path.parent.mkdir(parents=True, exist_ok=True)
-        urllib.request.urlretrieve(model_url, str(model_path))
-        print(f"Downloaded model weights successfully ({model_path.stat().st_size} bytes).")
+        # gdown automatically handles Google Drive confirmations & redirects
+        gdown.download(model_url, str(model_path), quiet=False, fuzzy=True)
+        print(f"Download complete: {model_path.stat().st_size} bytes.")
 
     model = EfficientNetBiLSTM(num_classes=3)
     state_dict = torch.load(model_path, map_location=device, weights_only=False)
