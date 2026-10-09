@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 from PIL import Image
 
@@ -15,7 +16,10 @@ class ClipValidationResult:
 class ClipBrainCtValidator:
     def __init__(self, device=None):
         self.device = device
-        self.model_name = "lightweight-validator"
+        self.model_name = os.getenv("CLIP_MODEL_NAME", "lightweight-validator")
+        self.pretrained = os.getenv("CLIP_PRETRAINED", "none")
+        self.brain_ct_threshold = float(os.getenv("CLIP_BRAIN_CT_THRESHOLD", "0.55"))
+        self.not_brain_ct_threshold = float(os.getenv("CLIP_NOT_BRAIN_CT_THRESHOLD", "0.75"))
 
     def validate(self, image: Image.Image) -> ClipValidationResult:
         width, height = image.size
