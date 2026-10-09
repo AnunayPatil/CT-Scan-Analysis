@@ -18,10 +18,9 @@ RUN pip install --no-cache-dir torch torchvision --extra-index-url https://downl
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir "uvicorn[standard]"
 
-# Copy application files
+# Copy files and ensure model.pth is in the execution folder
 COPY ml_service/ ./ml_service/
 COPY model.pth ./ml_service/model.pth
-COPY model.pth /app/model.pth
 
 WORKDIR /app/ml_service
 
