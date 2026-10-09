@@ -17,9 +17,8 @@ def load_model(model_path: Path, device: torch.device):
     torch.set_num_threads(1)
     gc.collect()
 
-    # mmap=True loads weights on-demand from disk without inflating RAM!
     try:
-        model = torch.jit.load(str(model_path), map_location="cpu")
+        model = torch.jit.load(str(model_path), map_location=device)
     except Exception:
         from torchvision import models
 
@@ -45,7 +44,7 @@ def load_model(model_path: Path, device: torch.device):
                 return self.fc(x)
 
         model = EfficientNetBiLSTM(num_classes=3)
-        state_dict = torch.load(model_path, map_location="cpu", weights_only=False, mmap=True)
+        state_dict = torch.load(model_path, map_location="cpu", weights_only=False)
         if isinstance(state_dict, dict) and "state_dict" in state_dict:
             state_dict = state_dict["state_dict"]
         elif isinstance(state_dict, dict) and "model_state_dict" in state_dict:
