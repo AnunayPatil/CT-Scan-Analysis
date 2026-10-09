@@ -25,6 +25,7 @@ COPY ml_service/ ./ml_service/
 
 WORKDIR /app/ml_service
 
-EXPOSE 8000
+# Allow Railway to route to dynamic PORT, fallback to 8080
+ENV PORT=8080
 
-CMD python -m uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000} --workers 1
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8080}"]
