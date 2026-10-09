@@ -15,9 +15,9 @@ class ClipValidationResult:
 class ClipBrainCtValidator:
     def __init__(self, device=None):
         self.device = device
+        self.model_name = "lightweight-validator"
 
     def validate(self, image: Image.Image) -> ClipValidationResult:
-        # Validate that the uploaded image meets standard CT scan resolution
         width, height = image.size
         is_valid = width >= 64 and height >= 64
 
